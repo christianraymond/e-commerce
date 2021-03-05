@@ -4,9 +4,10 @@ import { Typography, Card, Button, CardActions, CardMedia, CardContent } from '@
 
 import useStyles from './styles';
 
-const CartItem = ( {lineItem} ) => {
+const CartItem = ( {lineItem, onHandleCartQty, onHandleRemoveFromCart} ) => {
 
     const classes = useStyles();
+
     return (
        <Card>
            <CardMedia image={lineItem.media.source} alt={lineItem.name} className={classes.media}/>
@@ -21,11 +22,11 @@ const CartItem = ( {lineItem} ) => {
                 </div>
                 <CardActions className={classes.cardActions}>
                 <div className={classes.buttons}>
-                    <Button type="button" size="small">-</Button>
+                    <Button type="button" size="small" onClick={() => onHandleCartQty(lineItem.id, lineItem.quantity - 1)}>-</Button>
                     <Typography>{lineItem.quantity}</Typography>
-                    <Button type="button" size="small">+</Button>
+                    <Button type="button" size="small" onClick={() => onHandleCartQty(lineItem.id, lineItem.quantity + 1)}>+</Button>
                  </div>
-                 <Button variant="contained" type="button" color="secondary">Remove</Button>
+                 <Button variant="contained" type="button" color="secondary" onClick={() => onHandleRemoveFromCart(lineItem.id)}>Remove</Button>
                 </CardActions>
             </CardContent>
        </Card>

@@ -11,7 +11,7 @@ const Carts = ({ cart, handleCartQty, handleRemoveFromCart, handleEmptyCart }) =
     const classes = useStyle();
     
     console.log(cart.line_items);
-    const isEmpty = !cart.line_items;
+    const isEmpty = !cart.line_items.length;
 
       const EmptyCart = () => ( 
         <Typography variant="subtitle1">You have no items in your shopping cart,

@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { InputLabel, Select, MenuItem, Button, Grid, Typography } from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
-import CutomTextField from './CutomTextField'
+import CutomTextField from './CutomTextField';
 
-const AddressForm = () => {
+import { commerce } from '../../lib/commerce';
 
-    const methods = useForm();
+const AddressForm = ( { checkoutToken }) => {
+
+   const [ shippingCountries, setShippingCountries ] = useState([]);
+   const [ shippingCountry, setshippingCountry ] = useState('');
+   const [ shippingSubdivisions, setShippingSubdivisions ] = useState([]);
+   const [ shippingSubdivision, setShippingSubdivision ] = useState('');
+   const [ shippingOptions, setShippingOptions ] = useState([]);
+   const [ shippingOption, setShippingOption ] = useState('');
+
+  const fetchShippingCountries = async (checkoutTokenId) => {
+      const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
+      setShippingCountries(countries);
+      setshippingCountry(Object.keys(countries)[0])
+  }
+  
+  useEffect(() => {
+      fetchShippingCountries(checkoutToken.id);
+  }, []);
+
+   const methods = useForm();
     return (
         <>
           <Typography variant="h6" butterBottom>Shipping Adress</Typography>
@@ -21,13 +40,14 @@ const AddressForm = () => {
                       <CutomTextField required name='zip' label='Zip / Post Code'/>
                       <Grid item={12} sm={6}>
                           <InputLabel>Shipping Country</InputLabel>
-                          <Select value='' fullWidth onChange=''>
-                              <MenuItem key='' value=''>
+                          <Select value={setshippingCountry} fullWidth onChange={(e) => setshippingCountry(e.target.value)}>
+                              {console.log(Object.entries(setShippingCountries))}
+                              {/* <MenuItem key='' value={setshippingCountry}>
                                   Select Me
-                              </MenuItem>
+                              </MenuItem> */}
                           </Select>
-                      </Grid>
-                      <Grid item={12} sm={6}>
+                      </Grid>  
+                      {/* <Grid item={12} sm={6}>
                           <InputLabel>Shipping Subdivision</InputLabel>
                           <Select value='' fullWidth onChange=''>
                               <MenuItem key='' value=''>
@@ -42,7 +62,7 @@ const AddressForm = () => {
                                   Select Me
                               </MenuItem>
                           </Select>
-                      </Grid>
+                      </Grid> */}
                   </Grid>
               </form>
           </FormProvider>

@@ -10,7 +10,6 @@ const Carts = ({ cart, handleCartQty, handleRemoveFromCart, handleEmptyCart }) =
 
     const classes = useStyle();
     
-    console.log(cart.line_items);
     const isEmpty = !cart.line_items.length;
 
       const EmptyCart = () => ( 
@@ -32,7 +31,7 @@ const Carts = ({ cart, handleCartQty, handleRemoveFromCart, handleEmptyCart }) =
           <Typography variant="h4">Subtotal: {cart.subtotal.formatted_with_symbol}</Typography>
           <div>
             <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" onClick={handleEmptyCart}>Empty cart</Button>
-            <Button className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Checkout</Button>
+            <Button className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary" component={Link} to="/checkout">Checkout</Button>
           </div>
         </div>
       </>
